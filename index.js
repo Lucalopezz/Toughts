@@ -4,9 +4,12 @@ const exphbs = require("express-handlebars");
 const session = require("express-session");
 const FileStore = require("session-file-store")(session);
 
-const path = require('path');
-
+const path = require("path");
+//routes
 const toughtsRoutes = require("./routes/toughtsRoutes");
+const authRoutes = require("./routes/authRoutes");
+
+//controller
 const ToughtController = require("./controllers/ToughtController");
 
 const app = express();
@@ -62,12 +65,11 @@ app.use((req, res, next) => {
   next(); // if not logged
 });
 
-
 // Routes
 app.use("/toughts", toughtsRoutes); // people logged in
+app.use("/", authRoutes);
 
 app.get("/", ToughtController.showToughts); //show toughts people no logged in
-
 
 conn
   .sync()
